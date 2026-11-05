@@ -52,3 +52,17 @@ SELECT *FROM suppliers;
 INSERT INTO suppliers (SID,SNAME,ADDRESS,PHONE)
 VALUES(2, "supplier B","GALLE", "0701234567");
 SELECT *FROM suppliers;
+
+CREATE TABLE Students (
+    student_id INT PRIMARY KEY,
+    student_name VARCHAR(50),
+    student_address VARCHAR(100)
+);
+select * from students;
+
+INSERT INTO Students (student_id, student_name, student_address)
+VALUES (1, "kasun", "moratuwa"),
+       (2, "banuka", "kandy"),
+       (3, "dasun", "galle");
+       select * from students;
+       

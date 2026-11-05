@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+    <title>Weather table</title>
+</head>
+  <body>
+<table border="1">
+<tr>
+    <th><th/>       
+    <th>Rain(mm)<th/>
+    <th>Temperture(cc)</th>
+</tr>
+
+<tr>
+   <td>january</td>
+   <td>150mm</td>
+   <td>28</td>
+</tr>
+
+   <tr>
+     <td>february</td>
+     <td>160mm<td/>
+     <td>19<td/>
+</tr>
+
+ </table>
+</body>
+</html>
+

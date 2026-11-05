@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meat charset="UTF-8">
+    <meat name="viewport"
+content="width=device-width, 
+initial-scale=1.0">
+    <title>Animation</title>  
+    
+    <style>
+        body{
+            margin: 0;
+            overflow: hidden;
+            background-color: black;
+
+        }
+
+        canvas {
+            display: block;
+            
+        }
+      </style>
+
+</head>
+
+<body>
+
+
+<script type="module">
+    // Your JavaScript code here
+import * as THREEfrom 'https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.module.js';
+
+// =======
+// scene
+// =====
+
+const scene = new THREE.Scene();
+scene.background = new
+THREE.Color(0x000000);
+// =====
+// camera
+// =====
+const camera =new
+THREE.perspectiveCamera(
+    75,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+);
+
+// =====
+// RENDERER
+// =====
+const renderer = new THREE.WebGLRenderer({
+    antialias: true
+});
+
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+ // clock
+ const clock = new THREE.Clock();
+
+ // GALAXY PARTICALES
+ const particlesCount = 8000;
+
+ const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(particlesCount * 3);
+
+    for (let i = 0; i < particlesCount * 3; i++) {
+
+        const radius = Math.random() * 10;
+        const angle = Math.random() * 1.5 * Math.random()* 0.5;
+
+        positions[i * 3] =
+           Math.cos(angle) * radius + (Math.random() - 0.5) * 1.5;
+        
+       positions[i * 3 + 1] = (Math.random() - 0.5) * 0.5;
+       positions[i * 3 + 2] =Math.sin(angle) * radius + (Math.random() - 0.5) * 1.5;    
+
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    
+);
+
+const galaxy = new THREE.points(
+    geometry,
+    material
+
+);
+
+const galaxy = new THREE.Points(
+    geometry,
+    material
+);
+
+scene.add(galaxy);
+
+// camera distance
+const cameraDistance = 15;
+
+// Animation
+const tick = () => {}
+
+   const elapsedTime = clock.getElapsedTime();
+
+   // Rotate galaxy
+    galaxy.rotation.y = elapsedTime * 0.08;
+
+    // Move camera in a circular path around the galaxy
+    camera.position.x = Math.sin(elapsedTime * 0.05) * cameraDistance;
+
+    camera.position.z = Math.cos(elapsedTime * 0.05) * cameraDistance;
+
+    camera.position.y = 4;
+    //Look at the center of the galaxy
+    camera.lookAt(0,0,0);
+
+    // Render
+    renderer.render(scene, camera);
+
+    // Next frame
+    window.requestAnimationFrame(tick);
+};
+
+tick();
+
+// Responsive screen
+window.addEventListener('resize', () => {
+
+
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize(
+        window.innerWidth, 
+        window.innerHeight
+    
+    );
+
+});
+
+</script>
+
+</body>
+</html>

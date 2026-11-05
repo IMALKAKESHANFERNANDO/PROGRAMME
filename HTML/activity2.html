@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Galaxy Animation</title>
+
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: black;
+        }
+
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+<script type="module">
+
+    import * as THREE from
+        'https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.module.js';
+
+
+    // =========================
+    // SCENE
+    // =========================
+
+    const scene = new THREE.Scene();
+
+    scene.background = new THREE.Color(0x000000);
+
+
+    // =========================
+    // CAMERA
+    // =========================
+
+    const camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+    );
+
+
+    // =========================
+    // RENDERER
+    // =========================
+
+    const renderer = new THREE.WebGLRenderer({
+        antialias: true
+    });
+
+    renderer.setSize(
+        window.innerWidth,
+        window.innerHeight
+    );
+
+    document.body.appendChild(renderer.domElement);
+
+
+    // =========================
+    // CLOCK
+    // =========================
+
+    const clock = new THREE.Clock();
+
+
+    // =========================
+    // GALAXY PARTICLES
+    // =========================
+
+    const particlesCount = 8000;
+
+    const geometry = new THREE.BufferGeometry();
+
+    const positions = new Float32Array(
+        particlesCount * 3
+    );
+
+
+    // Create galaxy positions
+
+    for (let i = 0; i < particlesCount; i++) {
+
+        const radius =
+            Math.random() * 10;
+
+        const angle =
+            Math.random() * Math.PI * 2;
+
+        const i3 = i * 3;
+
+
+        // X position
+        positions[i3] =
+            Math.cos(angle) * radius +
+            (Math.random() - 0.5) * 1.5;
+
+
+        // Y position
+        positions[i3 + 1] =
+            (Math.random() - 0.5) * 0.8;
+
+
+        // Z position
+        positions[i3 + 2] =
+            Math.sin(angle) * radius +
+            (Math.random() - 0.5) * 1.5;
+    }
+
+
+    geometry.setAttribute(
+        'position',
+        new THREE.BufferAttribute(
+            positions,
+            3
+        )
+    );
+
+
+    // =========================
+    // MATERIAL
+    // =========================
+
+    const material = new THREE.PointsMaterial({
+        color: 0xffffff,
+        size: 0.05,
+        sizeAttenuation: true
+    });
+
+
+    // =========================
+    // GALAXY
+    // =========================
+
+    const galaxy = new THREE.Points(
+        geometry,
+        material
+    );
+
+    scene.add(galaxy);
+
+
+    // =========================
+    // CAMERA DISTANCE
+    // =========================
+
+    const cameraDistance = 15;
+
+
+    // =========================
+    // ANIMATION
+    // =========================
+
+    const tick = () => {
+
+        const elapsedTime =
+            clock.getElapsedTime();
+
+
+        // Rotate galaxy
+
+        galaxy.rotation.y =
+            elapsedTime * 0.08;
+
+
+        // Move camera in a circular path
+
+        camera.position.x =
+            Math.sin(elapsedTime * 0.05) *
+            cameraDistance;
+
+        camera.position.z =
+            Math.cos(elapsedTime * 0.05) *
+            cameraDistance;
+
+
+        camera.position.y = 4;
+
+
+        // Look at the center
+
+        camera.lookAt(0, 0, 0);
+
+
+        // Render
+
+        renderer.render(
+            scene,
+            camera
+        );
+
+
+        // Next frame
+
+        window.requestAnimationFrame(tick);
+    };
+
+
+    // Start animation
+
+    tick();
+
+
+    // =========================
+    // RESPONSIVE SCREEN
+    // =========================
+
+    window.addEventListener(
+        'resize',
+        () => {
+
+            camera.aspect =
+                window.innerWidth /
+                window.innerHeight;
+
+            camera.updateProjectionMatrix();
+
+
+            renderer.setSize(
+                window.innerWidth,
+                window.innerHeight
+            );
+        }
+    );
+
+</script>
+
+</body>
+</html>

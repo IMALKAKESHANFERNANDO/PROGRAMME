@@ -1,0 +1,132 @@
+   <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple To-Do Web App</title>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            padding-top: 100px;
+            margin: 0;
+        }
+        .app-container {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            width: 350px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-top: 0;
+        }
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            padding: 12px;
+            background: #f9f9f9;
+            margin-bottom: 8px;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .delete-btn {
+            background: #dc3545;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+        .delete-btn:hover {
+            background: #c82333;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <h2>My Tasks</h2>
+        
+        <div class="input-group">
+            <input type="text" id="taskInput" placeholder="What needs to be done?">
+            <button onclick="addTask()">Add Task</button>
+        </div>
+
+        <ul id="taskList">
+            </ul>
+    </div>
+
+    <script>
+        function addTask() {
+            // 1. Get the value from the input box
+            const input = document.getElementById('taskInput');
+            const taskText = input.value.trim();
+
+            // 2. Check if the input is empty
+            if (taskText === '') {
+                alert('Please enter a task first!');
+                return;
+            }
+
+            // 3. Find the unordered list (ul) in the HTML
+            const ul = document.getElementById('taskList');
+            
+            // 4. Create a new list item (li)
+            const li = document.createElement('li');
+
+            // 5. Add the task text and a delete button to the list item
+            li.innerHTML = `
+                <span>${taskText}</span>
+                <button class="delete-btn" onclick="deleteTask(this)">Delete</button>
+            `;
+
+            // 6. Append the new item to the list
+            ul.appendChild(li);
+
+            // 7. Clear the input box for the next task
+            input.value = '';
+        }
+
+        // Function to remove a task
+        function deleteTask(element) {
+            // Removes the parent <li> of the button that was clicked
+            element.parentElement.remove();
+        }
+    </script>
+
+</body>
+</html>
